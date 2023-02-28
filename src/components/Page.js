@@ -5,6 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import React,{useState} from 'react';
 import { Row,Col } from 'react-bootstrap';
+import Modal from 'react-bootstrap/Modal';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
 
@@ -60,8 +61,12 @@ const styleObj = {
   
 function Page() {
    
- 
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const [option, setOption] = React.useState(null);
+  const [width, setWindowWidth] = useState(0);
   const [text, setText] = React.useState("");
 
   const onChange = (ev) => {
@@ -71,6 +76,11 @@ function Page() {
     const person = people[val];
     if (person) {
       setText(person.Summary);
+
+const updateDimensions = () => {
+        const width = window.innerWidth
+        setWindowWidth(width)
+      }
    
     }
   };
@@ -86,7 +96,7 @@ function Page() {
 
         <Navbar.Brand href="#"></Navbar.Brand>
        
-        <Navbar.Toggle aria-controls="navbarScroll" />
+        
         <Navbar.Collapse id="navbarScroll">
           <Nav
             className="me-auto my-2 my-lg-0"
@@ -108,7 +118,7 @@ function Page() {
     <h4 class="pg-page-title" style={{marginTop: "40px" }}>
       AI TESTER
 
-<select value={option} onChange={onChange} style= {{marginLeft :'435px' ,width :" 41%" , height :'35px',marginBottom:  '10px' , fontSize: '20px' }} defaultValue={people[1]}  >
+<select value={option} onChange={onChange} style= {{marginRight:'200px' ,marginLeft :'300px' ,width :" 41%" , height :'35px',marginBottom:  '10px' , fontSize: '20px' }} defaultValue={people[1]}  >
 
  
    {people.map((person, index) => (
@@ -141,9 +151,20 @@ function Page() {
 <br/>
 
             <div class="position-absolute top-left">
-            <Button variant="primary" size="lg" active>
+            <Button variant="primary" size="lg" onClick={handleShow}>
           SUBMIT
         </Button>
+        <Modal show={show} onHide={handleClose}>
+        
+        <Modal.Body>Submit</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+
             </div>
 
     </Container>
